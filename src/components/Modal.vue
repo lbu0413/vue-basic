@@ -39,6 +39,12 @@ export default {
         send() {
             this.$emit('closeModal')
         }
+    },
+    beforeUpdate() {
+        if(this.month == 2) {
+            alert('we do not have options for 2 months')
+            this.month = 3;
+        }
     }
 }
 </script>

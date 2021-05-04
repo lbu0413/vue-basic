@@ -12,7 +12,9 @@
     <a v-for="(nav, index) in navs" :key="index">{{ nav }}</a>
   </div>
 
-  <Discount />
+  <Discount v-if="showDiscount === true"/>
+
+
   <button @click="priceSort">가격순정렬</button>
   <button @click="priceSort2">가격역순정렬</button>
   <button @click="ganada">가나다순정렬</button>
@@ -30,10 +32,12 @@ import Discount from './components/Discount';
 import Modal from './components/Modal'
 import Card from './components/Card'
 
+
 export default {
   name: 'App',
   data() {
     return {
+      showDiscount: true,
       roomsOriginal: [...oneroom],
       pressed: 0,
       rooms: oneroom,
@@ -63,6 +67,7 @@ export default {
       return this.rooms = [...this.roomsOriginal];
     },
   },
+  
   components: {
     Discount,
     Modal,

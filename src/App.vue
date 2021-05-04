@@ -1,11 +1,20 @@
 <template>
-  <Modal :rooms="rooms" :isModalOpen="isModalOpen" :pressed="pressed"/>
+  <Modal 
+    :rooms="rooms" 
+    :pressed="pressed" 
+    :isModalOpen="isModalOpen"
+    v-for="(room, index) in rooms" 
+    :key="index"
+    @closeModal="isModalOpen = false"
+  />
   <div class="menu">
     <a v-for="(nav, index) in navs" :key="index">{{ nav }}</a>
   </div>
 
   <Discount />
-  <Card :rooms="rooms" :reported="reported" :isModalOpen="isModalOpen"/>
+  <Card @openModal="isModalOpen = true; pressed = $event"  
+  :rooms="room" v-for="(room, index) in rooms" 
+  :key="index"/>
 </template>
 
 
@@ -19,7 +28,7 @@ export default {
   name: 'App',
   data() {
     return {
-      pressed: null,
+      pressed: 0,
       rooms: oneroom,
       isModalOpen : false,
       navs: ['Home', 'Products', 'About'],
@@ -71,7 +80,7 @@ div {
 }
 .black-bg {
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.2);
   position: fixed; padding: 20px;
 }
 .white-bg {

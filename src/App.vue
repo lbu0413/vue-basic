@@ -1,17 +1,23 @@
 <template>
-  <Modal 
+  <transition name="fade">
+    <Modal 
     :rooms="rooms" 
     :pressed="pressed" 
     :isModalOpen="isModalOpen"
-    v-for="(room, index) in rooms" 
-    :key="index"
     @closeModal="isModalOpen = false"
   />
+  </transition>
+  
   <div class="menu">
     <a v-for="(nav, index) in navs" :key="index">{{ nav }}</a>
   </div>
 
   <Discount />
+  <button @click="priceSort">가격순정렬</button>
+  <button @click="priceSort2">가격역순정렬</button>
+  <button @click="ganada">가나다순정렬</button>
+  <button @click="sortRevert">되돌리기</button>
+
   <Card @openModal="isModalOpen = true; pressed = $event"  
   :rooms="room" v-for="(room, index) in rooms" 
   :key="index"/>
@@ -28,6 +34,7 @@ export default {
   name: 'App',
   data() {
     return {
+      roomsOriginal: [...oneroom],
       pressed: 0,
       rooms: oneroom,
       isModalOpen : false,
@@ -37,9 +44,24 @@ export default {
     }
   },
   methods: {
-    increase: function() {
-      
-    }
+    priceSort() {
+      this.rooms.sort((a, b) => {
+        return a.price - b.price;
+      })
+    },
+    priceSort2() {
+      this.rooms.sort((a, b) => {
+        return b.price - a.price;
+      })
+    },
+    ganada() {
+      this.rooms.sort((a, b) => {
+        return (a.title).localeCompare(b.title);
+      })
+    },
+    sortRevert() {
+      return this.rooms = [...this.roomsOriginal];
+    },
   },
   components: {
     Discount,
@@ -100,5 +122,23 @@ button {
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
+}
+
+.start {
+  opacity: 0;
+  transition: all 1s;
+}
+
+.end {
+  opacity: 1;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s ease;
+}
+.fade-enter-to {
+  opacity: 1;
 }
 </style>

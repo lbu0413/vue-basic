@@ -4,7 +4,8 @@
         <img :src="rooms[pressed].image">
       <h4>{{ rooms[pressed].title }}</h4>
       <div>{{ rooms[pressed].content }}</div>
-      <div>{{ rooms[pressed].price }}원</div>
+      <input v-model="month">
+      <div> {{ month }}개월 선택: {{ month * rooms[pressed].price }}원</div>
       <button @click="send">close</button>
     </div>
   </div>
@@ -13,6 +14,22 @@
 <script>
 export default {
     name: 'Modal',
+    data() {
+        return {
+            month: 1,
+        }
+    },
+    watch: {
+        month(a) {
+            if(a > 12) {
+                alert('no such monhts')
+            }
+            if(isNaN(a)) {
+                alert('Only numbers allowed')
+                this.month = 1;
+            }
+        }
+    },
     props: {
         rooms: Object,
         pressed: Number,
